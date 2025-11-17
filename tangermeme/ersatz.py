@@ -579,7 +579,7 @@ def _dinucleotide_shuffle(X, n_shuffles=1, random_state=None, verbose=False):
 
 
 def dinucleotide_shuffle(X, start=0, end=-1, n=20, random_state=None, 
-	verbose=False):
+	verbose=False, allow_N=False):
 	"""Given a one-hot encoded sequence, dinucleotide shuffle it.
 
 	This function takes in a one-hot encoded sequence (not a string) and
@@ -626,7 +626,7 @@ def dinucleotide_shuffle(X, start=0, end=-1, n=20, random_state=None,
 		The shuffled sequences.
 	"""
 
-	_validate_input(X, "X", shape=(-1, -1, -1), ohe=True, ohe_dim=1)
+	_validate_input(X, "X", shape=(-1, -1, -1), ohe=True, ohe_dim=1, allow_N=allow_N)
 
 	if end < 0:
 		end = X.shape[-1] + 1 + end
