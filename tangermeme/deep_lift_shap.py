@@ -421,10 +421,10 @@ def deep_lift_shap(model, X, args=None, target=0,  batch_size=32,
 				_references = references[Xi, rj]
 			else:
 				if random_state is None:
-					_references = references(_X, n=1)[:, 0]
+					_references = references(_X, n=1, allow_N=allow_N)[:, 0]
 				else:
 					_references = torch.cat([references(_X[j:j+1], n=1, 
-						random_state=random_state+rj[j])[:, 0] 
+						random_state=random_state+rj[j], allow_N=allow_N)[:, 0] 
 							for j in range(len(_X))])
 
 			_X = _X.to(device).requires_grad_()
