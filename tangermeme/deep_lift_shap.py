@@ -202,7 +202,7 @@ def deep_lift_shap(model, X, args=None, target=0,  batch_size=32,
 	references=dinucleotide_shuffle, n_shuffles=20, return_references=False, 
 	hypothetical=False, warning_threshold=0.001, additional_nonlinear_ops=None,
 	print_convergence_deltas=False, raw_outputs=False, dtype=None, device='cuda',
-	random_state=None, verbose=False):
+	random_state=None, verbose=False, allow_N=False):
 	"""Calculate attributions for a set of sequences using DeepLIFT/SHAP.
 
 	This function will calculate the DeepLIFT/SHAP attributions on a set of
@@ -346,7 +346,7 @@ def deep_lift_shap(model, X, args=None, target=0,  batch_size=32,
 		`return_references = True`. 
 	"""
 
-	_validate_input(X, "X", shape=(-1, -1, -1), ohe=True)
+	_validate_input(X, "X", shape=(-1, -1, -1), ohe=True, allow_N=allow_N)
 	
 	_NON_LINEAR_OPS = {
 		torch.nn.ReLU: _nonlinear,
@@ -400,7 +400,7 @@ def deep_lift_shap(model, X, args=None, target=0,  batch_size=32,
 	attributions, references_, Xi, rj, attr_ = [], [], [], [], []
 	if isinstance(references, torch.Tensor):
 		_validate_input(references, "references", shape=(X.shape[0], -1, X.shape[1], 
-			X.shape[2]), ohe=True, allow_N=False, ohe_dim=-2)
+			X.shape[2]), ohe=True, allow_N=allow_N, ohe_dim=-2)
 		n_shuffles = references.shape[1]
 
 	n, z = X.shape[0] * n_shuffles, 0
